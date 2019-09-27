@@ -5,9 +5,22 @@
     <META http-equiv="Content-Type" content="text/html; charset=utf-8">
     <LINK href="other/rotate.css" rel="stylesheet">
     <SCRIPT src="other/rotate.js"></SCRIPT>
+    <style>
+      html{
+        padding:0px;
+        margin:0px;
+        height:100%; /* HTML5 正しい高さを取得するため */
+      }
+      body{
+        padding:0px;
+        margin:0px;
+        height:100%; /* HTML5 正しい高さを取得するため */
+     }
+    </style>
   </HEAD>
   
   <BODY>
+    <iframe id="screenSaver" src="screenSaver.html" frameborder="0" scrolling="no" style="position:absolute;z-index:-112;width:100%;height:100%;margin:0px;padding:0px;"></iframe>
     <DIV id="rotate">
       <A href="xuchlgame/mazeAutoCreatV1.3.0 - encodeOutVersion2.html" target="_blank">Maze</A> 
       <A href="xuchlgame/gluttonousSnakeDemo.html" target="_blank">GluttonousSnake</A>

@@ -7,16 +7,18 @@
 <style type="text/css">
 html{height:100%}
 body{height:100%;margin:0px;padding:0px}
-#container{height:100%}
+#container{height:80%}
 </style>
-<script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=QpETkN7q770mIkKy7LCTxuoQdt0nsIQ9">
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=QpETkN7q770mIkKy7LCTxuoQdt0nsIQ9">
 //v3.0版本的引用方式：src="http://api.map.baidu.com/api?v=3.0&ak=您的密钥"
 </script>
 </head>
 
 <body>
-<input type="button" onclick="getPoint()" value="获取标记信息" />
 <div id="container"></div>
+<input type="button" onclick="getPoint()" value="获取标记信息" />
+<br />
+<textarea id="out" cols = "100" rows="5"></textarea>
 <script type="text/javascript">
 	var map = new BMap.Map("container");
 	var pointMap = new Map();
@@ -75,7 +77,7 @@ body{height:100%;margin:0px;padding:0px}
 			jsonData.push(pointInfo);
 		}*/
 		// alert(JSON.stringify(jsonData));
-		return JSON.stringify(jsonData);
+		document.getElementById("out").innerHTML = JSON.stringify(jsonData);
 	}
 </script>
 </body>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>足迹添加</title>
+<style type="text/css">
+html{height:100%}
+body{height:100%;margin:0px;padding:0px}
+#container{height:100%}
+</style>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=QpETkN7q770mIkKy7LCTxuoQdt0nsIQ9">
+//v3.0版本的引用方式：src="http://api.map.baidu.com/api?v=3.0&ak=您的密钥"
+</script>
+</head>
+
+<body>
+<input type="button" onclick="getPoint()" value="获取标记信息" />
+<div id="container"></div>
+<script type="text/javascript">
+	var map = new BMap.Map("container");
+	var pointMap = new Map();
+	var i = 1;
+	map.centerAndZoom(new BMap.Point(116.404, 39.915), 10);
+	map.enableScrollWheelZoom(true);
+	// 设置标记信息
+	function setPoint(e){
+		// 设置经纬度
+		var point = new BMap.Point(e.point.lng, e.point.lat);
+		// 设置标签内容
+		var labelInfo = window.prompt("标签内容","");
+		var label = new BMap.Label(i + ":" + labelInfo, {offset:new BMap.Size(20,-10)})
+		// 创建右键菜单
+		var markerMenu = new BMap.ContextMenu();
+		markerMenu.addItem(new BMap.MenuItem('删除',removeMarker.bind(marker)));
+
+		// 生成标记
+		var marker = new BMap.Marker(point);
+		map.addOverlay(marker);
+		marker.setLabel(label); // 必须写到addOverlay()后,不然取不到Overlay.getLabel()取不到。
+		marker.addContextMenu(markerMenu);
+		pointMap.set(i + ":" + labelInfo, marker);
+		i++;
+	}
+
+	// 鼠标点击开始设置标记
+	map.addEventListener("click", setPoint);
+
+	// 删除标记
+	var removeMarker = function(e,ee,marker){
+		pointMap.delete(marker.getLabel().content);
+		map.removeOverlay(marker);
+	}
+
+	// 获取标记信息
+	function getPoint() {
+		var jsonData = new Array();
+		var allOverlay = map.getOverlays();
+		//alert(pointMap);
+		for (var [key, value] of pointMap) {
+			var pointInfo = new Object();
+			pointInfo.lng = value.getPosition().lng;
+			pointInfo.lat = value.getPosition().lat;
+			pointInfo.label = value.getLabel().content.substring(2);
+			jsonData.push(pointInfo);
+		}
+		// 从下标3开始才是地图上的点
+		// （和初始缩放级别有关,前面大概可以有3层（下标从3开始），官方的demo本地跑不通）
+		// （因为点击查看详细信息（即鼠标图标是手的形状，下标会刷新，从3开始。这种情况下可能获取不到坐标）
+		/*for (var i = 3; i < allOverlay.length; i++){
+			var pointInfo = new Object();
+			pointInfo.lng = allOverlay[i].getPosition().lng;
+			pointInfo.lat = allOverlay[i].getPosition().lat;
+			pointInfo.label = allOverlay[i].getLabel().content;
+			jsonData.push(pointInfo);
+		}*/
+		// alert(JSON.stringify(jsonData));
+		return JSON.stringify(jsonData);
+	}
+</script>
+</body>
+</html>

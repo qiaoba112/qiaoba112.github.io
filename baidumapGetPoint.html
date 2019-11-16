@@ -30,7 +30,8 @@ body{height:100%;margin:0px;padding:0px}
 		// 设置经纬度
 		var point = new BMap.Point(e.point.lng, e.point.lat);
 		// 设置标签内容
-		var labelInfo = window.prompt("标签内容","");
+		var labelInfo = window.prompt("请输入标题","");
+		labelInfo = labelInfo ? labelInfo : ""; //点取消时null替换为空白
 		var label = new BMap.Label(i + ":" + labelInfo, {offset:new BMap.Size(20,-10)})
 		// 创建右键菜单
 		var markerMenu = new BMap.ContextMenu();
@@ -57,15 +58,16 @@ body{height:100%;margin:0px;padding:0px}
 	// 获取标记信息
 	function getPoint() {
 		var jsonData = new Array();
-		var allOverlay = map.getOverlays();
-		//alert(pointMap);
 		for (var [key, value] of pointMap) {
 			var pointInfo = new Object();
 			pointInfo.lng = value.getPosition().lng;
 			pointInfo.lat = value.getPosition().lat;
-			pointInfo.label = value.getLabel().content.substring(2);
+			pointInfo.title = value.getLabel().content.substring(2);
+			pointInfo.content = ""; //内容，默认空，输出后自行修改
 			jsonData.push(pointInfo);
 		}
+		// ======废弃 开始======
+		//var allOverlay = map.getOverlays();
 		// 从下标3开始才是地图上的点
 		// （和初始缩放级别有关,前面大概可以有3层（下标从3开始），官方的demo本地跑不通）
 		// （因为点击查看详细信息（即鼠标图标是手的形状，下标会刷新，从3开始。这种情况下可能获取不到坐标）
@@ -76,8 +78,9 @@ body{height:100%;margin:0px;padding:0px}
 			pointInfo.label = allOverlay[i].getLabel().content;
 			jsonData.push(pointInfo);
 		}*/
-		// alert(JSON.stringify(jsonData));
-		document.getElementById("out").innerHTML = JSON.stringify(jsonData);
+		// ======废弃 结束======
+		// 换行输出
+		document.getElementById("out").innerHTML = JSON.stringify(jsonData).replace(/},/g, "},\r\n");
 	}
 </script>
 </body>

@@ -9,13 +9,15 @@ html{height:100%}
 body{height:100%;margin:0px;padding:0px}
 #container{height:80%}
 </style>
-<script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=AA4uqECjDYfZUk9vSVMNR5bPdFEtw6GU">
+<script type="text/javascript" src="https://api.map.baidu.com/api?v=3.0&ak=QpETkN7q770mIkKy7LCTxuoQdt0nsIQ9">
 //v3.0版本的引用方式：src="http://api.map.baidu.com/api?v=3.0&ak=您的密钥"
 </script>
+<script type="text/javascript" src="exif.js" ></script>
 </head>
 
 <body>
 <div id="container"></div>
+<input id="file-input" type="file" />
 <input type="button" onclick="getPoint()" value="获取标记信息" />
 <br />
 <textarea id="out" cols = "100" rows="5"></textarea>
@@ -81,6 +83,46 @@ body{height:100%;margin:0px;padding:0px}
 		// ======废弃 结束======
 		// 换行输出
 		document.getElementById("out").innerHTML = JSON.stringify(jsonData).replace(/},/g, "},\r\n");
+	}
+
+	// 获取图片经纬度
+	document.getElementById("file-input").onchange = function(e) {
+	    EXIF.getData(e.target.files[0], function() {
+			var allMetaData = EXIF.getAllTags(this);
+			var Longitude;
+			  if (allMetaData.GPSLongitude) {
+				var LongitudeArry = allMetaData.GPSLongitude;
+				var longLongitude =
+				  LongitudeArry[0].numerator / LongitudeArry[0].denominator +
+				  LongitudeArry[1].numerator / LongitudeArry[1].denominator / 60 +
+				  LongitudeArry[2].numerator / LongitudeArry[2].denominator / 3600;
+				Longitude = longLongitude.toFixed(8);
+			  }
+			 
+			  var Latitude;
+			  if (allMetaData.GPSLatitude) {
+				var LatitudeArry = allMetaData.GPSLatitude;
+				var longLatitude =
+				  LatitudeArry[0].numerator / LatitudeArry[0].denominator +
+				  LatitudeArry[1].numerator / LatitudeArry[1].denominator / 60 +
+				  LatitudeArry[2].numerator / LatitudeArry[2].denominator / 3600;
+				Latitude = longLatitude.toFixed(8);
+			};
+			var DateTimeOriginal;
+			if (allMetaData.DateTimeOriginal) {
+			DateTimeOriginal = allMetaData.DateTimeOriginal;
+			}
+			alert(Longitude + " " + Latitude + " " + DateTimeOriginal);
+			if (typeof(Longitude) != 'undefined') {
+				var imgPoint = new BMap.Point(Longitude, Latitude);
+				map.centerAndZoom(imgPoint,12);
+				var e = {point:{lng:0, lat:0}};
+				e.point.lng = Longitude;
+				e.point.lat = Latitude;
+				setPoint(e);
+				
+			}
+		})
 	}
 </script>
 </body>

@@ -19,6 +19,9 @@ body{height:100%;margin:0px;padding:0px}
 <div id="container"></div>
 <input id="file-input" type="file" />
 <input type="button" onclick="getPoint()" value="获取标记信息" />
+<input type="text" id="target" />
+<input type="button" onclick="doSearch()" value="检索地点" />
+<input type="button" onclick="doClean()" value="清除检索地点" />
 <br />
 <textarea id="out" cols = "100" rows="5"></textarea>
 <script type="text/javascript">
@@ -44,6 +47,7 @@ body{height:100%;margin:0px;padding:0px}
 		map.addOverlay(marker);
 		marker.setLabel(label); // 必须写到addOverlay()后,不然取不到Overlay.getLabel()取不到。
 		marker.addContextMenu(markerMenu);
+		marker.disableMassClear(); // 禁止覆盖物在map.clearOverlays方法中被清除(为了只清除检索结果)
 		pointMap.set(i + ":" + labelInfo, marker);
 		i++;
 	}
@@ -123,6 +127,22 @@ body{height:100%;margin:0px;padding:0px}
 				
 			}
 		})
+	}
+
+	// 检索地点
+	function doSearch() {
+		target = document.getElementById("target").value;
+		alert(target);
+		var local = new BMap.LocalSearch(map, {
+			renderOptions:{map: map, autoViewport: true},
+			pageCapacity: 6
+		});
+		doClean();
+		local.search(target);
+	}
+	// 清除覆盖物
+	function doClean() {
+		map.clearOverlays();
 	}
 </script>
 </body>

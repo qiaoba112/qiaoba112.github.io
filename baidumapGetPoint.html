@@ -19,7 +19,7 @@ body{height:100%;margin:0px;padding:0px}
 <div id="container"></div>
 <input id="file-input" type="file" />
 <input type="button" onclick="getPoint()" value="获取标记信息" />
-<input type="text" id="target" />
+<input type="text" id="target" autocomplete="off" />
 <input type="button" onclick="doSearch()" value="检索地点" />
 <input type="button" onclick="doClean()" value="清除检索地点" />
 <br />
@@ -132,7 +132,6 @@ body{height:100%;margin:0px;padding:0px}
 	// 检索地点
 	function doSearch() {
 		target = document.getElementById("target").value;
-		alert(target);
 		var local = new BMap.LocalSearch(map, {
 			renderOptions:{map: map, autoViewport: true},
 			pageCapacity: 6

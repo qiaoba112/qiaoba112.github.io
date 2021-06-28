@@ -11,10 +11,26 @@
             function earthClick() {
                 document.getElementById('earth').classList.add('on');
                 document.getElementById('old').classList.remove('on');
+                document.getElementById('amap').classList.remove('on');
+                document.getElementById('bing').classList.remove('on');
             }
             function oldClick() {
                 document.getElementById('earth').classList.remove('on');
                 document.getElementById('old').classList.add('on');
+                document.getElementById('amap').classList.remove('on');
+                document.getElementById('bing').classList.remove('on');
+            }
+            function amapClick() {
+                document.getElementById('earth').classList.remove('on');
+                document.getElementById('old').classList.remove('on');
+                document.getElementById('amap').classList.add('on');
+                document.getElementById('bing').classList.remove('on');
+            }
+            function bingClick() {
+                document.getElementById('earth').classList.remove('on');
+                document.getElementById('old').classList.remove('on');
+                document.getElementById('amap').classList.remove('on');
+                document.getElementById('bing').classList.add('on');
             }
         </script>
     </head>
@@ -27,6 +43,8 @@
             <div>
             <a id='earth' rel="nofollow"  class="normal on" style="left:0" onclick="earthClick()" target="show_demo" href="myTrailsGL.html">地球模式</a>
             <a id='old' rel="nofollow" class="normal" style="left:80px;" onclick="oldClick()" target="show_demo" href="myTrails.html">普通模式(旧版)</a>
+            <a id='amap' rel="nofollow" class="normal" style="left:205px;" onclick="amapClick()" target="show_demo" href="myTrailsAMap.html">高德(未更新)</a>
+            <a id='bing' rel="nofollow" class="normal" style="left:315px;" onclick="bingClick()" target="show_demo" href="myTrailsBingMap.html">必应(未更新)</a>
             </div>
         </div>
     </body>

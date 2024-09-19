@@ -1,0 +1,15 @@
+<html>
+	<head>
+		<!--<script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.7.1/jquery.js"></script>-->
+	</head>
+	<body>
+		<script>
+			window.onload=function(){
+			const json = '[{"Description":"COUNTER Usage Reports for CNKI platform","Service_Active":true,"Registry_URL":"http://my.cnki.net/mycnki","Note":"COUNTER Usage Reports of Last Month is supplied on 3rd of the month","Alerts":null}]';
+			const obj = JSON.parse(json);
+			document.body.innerHTML = JSON.stringify(obj);
+			return obj;
+		}
+		</script>
+	</body>
+</html>
